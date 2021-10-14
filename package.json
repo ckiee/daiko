@@ -1,0 +1,24 @@
+{
+    "name": "iscool",
+    "version": "0.0.1",
+    "main": "dist/index.js",
+    "bin": "dist/index.js",
+    "dependencies": {
+        "@types/cheerio": "^0.22.30",
+        "@types/dotenv-safe": "^8.1.2",
+        "cheerio": "^1.0.0-rc.10",
+        "dotenv-safe": "^8.2.0",
+        "node-fetch": "^2.6.1",
+        "ts-node": "^10.2.0",
+        "twilio": "^3.69.0",
+        "typescript": "^4.3.5"
+    },
+    "scripts": {
+        "start": "ts-node src",
+        "postinstall": "tsc && sed -i '1i#!/usr/bin/env node' dist/index.js && chmod +x dist/index.js"
+    },
+    "devDependencies": {
+        "@types/node": "^16.6.1",
+        "@types/node-fetch": "^2.5.12"
+    }
+}
