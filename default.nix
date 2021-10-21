@@ -1,5 +1,6 @@
-with (import <nixpkgs> { });
+{ pkgs }:
 
+with pkgs;
 mkYarnPackage {
   name = "iscool";
   src = ./.;
