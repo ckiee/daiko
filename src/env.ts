@@ -7,4 +7,3 @@ export const messagingServiceSid = process.env.MESSAGING_SERVICE_SID;
 export const phoneNumber = process.env.PHONE_NUMBER!;
 export const iscoolSubdomain = process.env.ISCOOL_SUBDOMAIN!;
 export const iscoolClassIndex = process.env.ISCOOL_CLASS_INDEX!;
-export const dryRun = process.env.DRY_RUN! != undefined;
