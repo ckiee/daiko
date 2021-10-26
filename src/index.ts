@@ -1,7 +1,7 @@
 import { IscoolOptimizer } from "./optimizer";
 import { IscoolScraper, msTimeToHuman } from "./scraper";
 import twilio from "twilio";
-import { messagingServiceSid, phoneNumber, twilioAccountSid, twilioAuthToken } from "./env";
+import { dryRun, messagingServiceSid, phoneNumber, twilioAccountSid, twilioAuthToken } from "./env";
 
 async function start() {
     const scraper = new IscoolScraper();
@@ -30,7 +30,8 @@ async function start() {
         return <number>(diff > FIVEMIN ? 0.5 : 0.25); // small breaks don't have enough time to eat a full sandwich
     }).reduce((a, b) => a + b);
 
-    sms.messages.create({
+    const sendFn = dryRun ? console.log : sms.messages.create;
+    sendFn({
         body: `${foodNeeded} needed sandwiches for lessons tomorrow until ${msTimeToHuman(lessonTimes[lastSlotIndex].end)}`,
         messagingServiceSid,
         to: phoneNumber
