@@ -23,7 +23,7 @@ async function start() {
     const foodNeeded = lessonTimes.map((range, i, arr) => {
         // lesson 0 is an exception for some kids
         // also end early if we've gone past the hours in this day
-        if (i < 1 || i > lastSlotIndex) return 0;
+        if (i < 1 || i >= lastSlotIndex) return 0;
         const lastEnd = arr[i - 1].end;
         const diff = Math.abs(lastEnd - range.end); // abs just in case, we *shouldn't* have any time travel.
         const FIVEMIN = 300000;
