@@ -13,25 +13,15 @@ import {
 } from "cookiecord";
 import { logger } from "../../logger";
 import { store } from "../../store";
+import { config } from "../../config";
 import { ComicSource, fetchers, isComicSource } from "../../api/comic";
 import { URL } from "url";
 
 export default class ComicPoller extends Module {
+    private config = config.comic;
     private data = store.comic;
     constructor(client: CookiecordClient) {
         super(client);
-    }
-
-    @command({
-        description: "Add a comic to track",
-        inhibitors: [CommonInhibitors.botAdminsOnly],
-        exactArgs: true,
-    })
-    comicadd(msg: Message, key: string, source: ComicSource, _url: string) {
-        const url = new URL(_url).toString(); // validate by parsing (:
-        if (!isComicSource(source)) throw new Error("invalid source");
-        this.data.comics[key] = { source, url, maxPageId: -1 };
-        msg.channel.send(`oke, added ${source.toUpperCase()} \`${key}\``);
     }
 
     @listener({ event: "ready" })
@@ -41,7 +31,8 @@ export default class ComicPoller extends Module {
 
     async pollComics() {
         for (let key in this.data.comics) {
-            const comic = this.data.comics[key];
+            const comic = this.config.comics[key];
+            const comicState = this.data.comics[key];
             logger.trace(`now polling ${key} with ${comic.source}`);
             const meta = await fetchers[comic.source](new URL(comic.url))();
             const latest = meta.pages[meta.pages.length - 1];
@@ -64,7 +55,7 @@ export default class ComicPoller extends Module {
                     content: process.env.COMIC_EXTRA_CONTENT!,
                     embeds: [embed],
                 });
-                comic.maxPageId = latest.id;
+                comicState.maxPageId = latest.id;
             }
         }
     }
@@ -75,6 +66,9 @@ interface PolledComic {
     url: string;
     maxPageId: number;
 }
-export interface ComicStore {
+export interface ComicConfig {
     comics: { [key: string]: PolledComic };
+}
+export interface ComicStore {
+    comics: { [key: string]: { maxPageId: number; } }
 }
