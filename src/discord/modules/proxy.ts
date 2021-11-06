@@ -2,17 +2,18 @@ import { User, MessageReaction, Message, CollectorFilter } from "discord.js";
 import { listener, default as CookiecordClient, Module } from "cookiecord";
 import { PluralKitAPI, SystemMember } from "../../api/pk";
 import { logger } from "../../logger";
+import { config } from "../../config";
 
 export default class ProxyManager extends Module {
     private pk = new PluralKitAPI(process.env.PK_TOKEN!);
-    private PK_SYSTEM_ID = process.env.PK_SYSTEM!;
+    private config = config.discord.proxy;
 
     constructor(client: CookiecordClient) {
         super(client);
     }
 
     async findProxyTag(content: string): Promise<SystemMember | undefined> {
-        const sys = await this.pk.getSystemById(this.PK_SYSTEM_ID);
+        const sys = await this.pk.getSystemById(this.config.pkSystemId);
         const members = await this.pk.getMembers(sys);
         return members.filter(m => content.includes(m.description))[0];
     }
@@ -22,7 +23,7 @@ export default class ProxyManager extends Module {
         if (!this.client.botAdmins.includes(msg.author.id)) return;
         const newMember = await this.findProxyTag(msg.content);
         if (!newMember) return;
-        const sys = await this.pk.getSystemById(this.PK_SYSTEM_ID);
+        const sys = await this.pk.getSystemById(this.config.pkSystemId);
         const front = await this.pk.getFronters(sys);
         if (front.map(m => m.id).includes(newMember.id)) return logger.debug("already in front, skipping");
         const newFront = [...front, newMember];
@@ -42,4 +43,8 @@ export default class ProxyManager extends Module {
         await this.pk.postSwitch(newFront);
         await response.edit(`:white_check_mark: Registered switch to \`${formattedNewFronters}\`.`);
     }
+}
+
+export interface ProxyConfig {
+    pkSystemId: string;
 }

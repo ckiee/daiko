@@ -36,3 +36,8 @@ export async function sendSandwichMessage() {
         to: phoneNumber
     });
 }
+
+export interface IscoolConfig {
+    subdomain: string;
+    classIndex: number;
+}

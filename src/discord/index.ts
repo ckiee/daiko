@@ -3,13 +3,14 @@ import { Intents } from "discord.js";
 import AdminModule from "./modules/admin";
 import ComicPoller from "./modules/comic";
 import FunModule from "./modules/fun";
-import ProxyManager from "./modules/proxy";
+import ProxyManager, { ProxyConfig } from "./modules/proxy";
 import { config } from "../config";
+import { logger } from "../logger";
 
 export async function init() {
     const client = new CookiecordClient(
         {
-            botAdmins: process.env.BOT_ADMINS?.split(","),
+            botAdmins: config.discord.botAdmins,
             prefix: "d!",
         },
         {
@@ -33,7 +34,13 @@ export async function init() {
         client.registerModule(AdminModule);
     }
 
-    client.login(process.env.TOKEN);
-    client.on("ready", () => console.log(`Logged in as ${client.user?.tag}`));
+    client.login(config.discord.token);
+    client.on("ready", () => logger.info(`Logged in as ${client.user?.tag}`));
     return client;
+}
+
+export interface DiscordConfig {
+    token: string;
+    botAdmins: string[];
+    proxy: ProxyConfig;
 }
