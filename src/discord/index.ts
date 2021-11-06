@@ -1,13 +1,10 @@
 import CookiecordClient, { HelpModule } from "cookiecord";
 import { Intents } from "discord.js";
-import dotenv from "dotenv-safe";
 import AdminModule from "./modules/admin";
 import ComicPoller from "./modules/comic";
 import FunModule from "./modules/fun";
 import ProxyManager from "./modules/proxy";
 import { config } from "../config";
-
-dotenv.config();
 
 export async function init() {
     const client = new CookiecordClient(
