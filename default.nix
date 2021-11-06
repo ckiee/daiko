@@ -2,7 +2,7 @@
 
 with pkgs;
 mkYarnPackage {
-  name = "iscool";
+  name = "daiko";
   src = ./.;
   packageJSON = ./package.json;
   yarnLock = ./yarn.lock;
