@@ -1,40 +1,39 @@
-import { IscoolOptimizer } from "./optimizer";
-import { IscoolScraper, msTimeToHuman } from "./scraper";
-import twilio from "twilio";
-import { messagingServiceSid, phoneNumber, twilioAccountSid, twilioAuthToken } from "./env";
+import CookiecordClient, { HelpModule } from "cookiecord";
+import { Intents } from "discord.js";
+import dotenv from "dotenv-safe";
+import AdminModule from "./discord/modules/admin";
+import ComicPoller from "./discord/modules/comic";
+import FunModule from "./discord/modules/fun";
+import ProxyManager from "./discord/modules/proxy";
 
-async function start() {
-    const scraper = new IscoolScraper();
-    const optimizer = new IscoolOptimizer();
-    const sms = twilio(twilioAccountSid, twilioAuthToken);
+import "./discord/store"; // for side effects
 
-    const { schedule, lessonTimes } = await scraper.fetch();
-    const optimizedSchedule = schedule.map(x => x.map(y => optimizer.processSlot(y)));
+dotenv.config();
 
-    const now = new Date();
-    const tomorrowIndex = (now.getDay() + 1) % 7; // 0-indexed
+const client = new CookiecordClient(
+    {
+        botAdmins: process.env.BOT_ADMINS?.split(","),
+        prefix: "yp!",
+    },
+    {
+        intents: [
+            Intents.FLAGS.GUILDS,
+            Intents.FLAGS.GUILD_MESSAGES,
+            Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
+        ],
+    }
+);
 
-    if (tomorrowIndex == 6) return; // free day
-    const lastSlotIndex = Math.max(...optimizedSchedule[tomorrowIndex]
-        .map((x, i) => ({ i, len: x.length }))
-        .filter(x => x.len > 0)
-        .map(x => x.i));
-
-    const foodNeeded = lessonTimes.map((range, i, arr) => {
-        // lesson 0 is an exception for some kids
-        // also end early if we've gone past the hours in this day
-        if (i < 1 || i > lastSlotIndex) return 0;
-        const lastEnd = arr[i - 1].end;
-        const diff = Math.abs(lastEnd - range.start); // abs just in case, we *shouldn't* have any time travel.
-        const FIVEMIN = 300000;
-        return <number>(diff > FIVEMIN ? 0.5 : 0.25); // small breaks don't have enough time to eat a full sandwich
-    }).reduce((a, b) => a + b);
-
-    sms.messages.create({
-        body: `${foodNeeded} needed sandwiches for lessons tomorrow until ${msTimeToHuman(lessonTimes[lastSlotIndex].end)}`,
-        messagingServiceSid,
-        to: phoneNumber
-    });
+if (process.argv[0].endsWith("ts-node")) {
+    client.loadModulesFromFolder("src/discord/modules");
+    client.reloadModulesFromFolder("src/discord/modules");
+} else {
+    client.registerModule(HelpModule);
+    client.registerModule(ProxyManager);
+    client.registerModule(FunModule);
+    client.registerModule(ComicPoller);
+    client.registerModule(AdminModule);
 }
 
-start();
+client.login(process.env.TOKEN);
+client.on("ready", () => console.log(`Logged in as ${client.user?.tag}`));
