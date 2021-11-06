@@ -18,8 +18,8 @@ import { ComicSource, fetchers, isComicSource } from "../../api/comic";
 import { URL } from "url";
 
 export default class ComicPoller extends Module {
-    private config = config.comic;
-    private data = store.comic;
+    private config = config.discord.comic;
+    private data = store.discord.comic;
     constructor(client: CookiecordClient) {
         super(client);
     }

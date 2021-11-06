@@ -1,20 +1,23 @@
 import { IscoolOptimizer } from "./optimizer";
 import { IscoolScraper, msTimeToHuman } from "./scraper";
 import twilio from "twilio";
-import { messagingServiceSid, phoneNumber, twilioAccountSid, twilioAuthToken } from "./env";
+import { config } from "../config";
 
-export async function sendSandwichMessage() {
+export async function getSchedule() {
     const scraper = new IscoolScraper();
     const optimizer = new IscoolOptimizer();
-    const sms = twilio(twilioAccountSid, twilioAuthToken);
 
     const { schedule, lessonTimes } = await scraper.fetch();
     const optimizedSchedule = schedule.map(x => x.map(y => optimizer.processSlot(y)));
+    return { schedule, lessonTimes, optimizedSchedule };
+}
 
+export async function sendSandwichMessage() {
+    const { lessonTimes, optimizedSchedule } = await getSchedule();
+    const sms = twilio(config.twilio.accountSid, config.twilio.authToken);
     const now = new Date();
     const tomorrowIndex = (now.getDay() + 1) % 7; // 0-indexed
 
-    if (tomorrowIndex == 6) return; // free day
     const lastSlotIndex = Math.max(...optimizedSchedule[tomorrowIndex]
         .map((x, i) => ({ i, len: x.length }))
         .filter(x => x.len > 0)
@@ -32,9 +35,23 @@ export async function sendSandwichMessage() {
 
     sms.messages.create({
         body: `${foodNeeded} needed sandwiches for lessons tomorrow until ${msTimeToHuman(lessonTimes[lastSlotIndex].end)}`,
-        messagingServiceSid,
-        to: phoneNumber
+        messagingServiceSid: config.twilio.messagingServiceSid,
+        to: config.twilio.phoneNumber
     });
+}
+
+export function init() {
+    const HOUR = 3.6e+6, SECOND = 1000;
+
+    let lastExecutedMs = 0;
+    setInterval(async () => {
+        const now = new Date();
+        // on every day other than friday, execute at 18:30 (6:30pm) if we didn't excecute within the last hour
+        if (now.getDay() !== 5 && now.getHours() == 18 && now.getMinutes() == 30 && lastExecutedMs > HOUR) {
+            await sendSandwichMessage();
+            lastExecutedMs = Date.now();
+        }
+    }, SECOND * 15)
 }
 
 export interface IscoolConfig {

@@ -1,7 +1,6 @@
 import { readFileSync } from "fs";
 import { join } from "path";
 import { DiscordConfig } from "./discord";
-import { ComicConfig } from "./discord/modules/comic";
 import { IscoolConfig } from "./iscool";
 
 interface TwilioConfig {
@@ -13,7 +12,6 @@ interface TwilioConfig {
 
 interface DaikoConfig {
     production: boolean;
-    comic: ComicConfig;
     twilio: TwilioConfig;
     discord: DiscordConfig;
     iscool: IscoolConfig;

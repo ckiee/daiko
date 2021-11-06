@@ -1,12 +1,12 @@
 import fetch from "node-fetch";
 import cheerio from "cheerio";
-import { iscoolClassIndex, iscoolSubdomain } from "./env";
+import { config } from "../config";
 // cell = single thing in time slot
 // slot = single time slot
 
 export class IscoolScraper {
     async fetchHtml() {
-        const res = await fetch(`https://${iscoolSubdomain}.iscool.co.il/default.aspx`, {
+        const res = await fetch(`https://${config.iscool.subdomain}.iscool.co.il/default.aspx`, {
             "headers": {
                 "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:92.0) Gecko/20100101 Firefox/92.0",
                 "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
@@ -42,7 +42,7 @@ CA0B0334
 -----------------------------252371569425890445663172039469
 Content-Disposition: form-data; name=\"dnn$ctr18597$TimeTableView$ClassesList\"
 
-${iscoolClassIndex}
+${config.iscool.classIndex}
 -----------------------------252371569425890445663172039469
 Content-Disposition: form-data; name=\"dnn$ctr18597$TimeTableView$ControlId\"
 

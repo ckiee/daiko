@@ -1,11 +1,12 @@
 import CookiecordClient, { HelpModule } from "cookiecord";
 import { Intents } from "discord.js";
 import AdminModule from "./modules/admin";
-import ComicPoller from "./modules/comic";
+import ComicPoller, { ComicConfig, ComicStore } from "./modules/comic";
 import FunModule from "./modules/fun";
 import ProxyManager, { ProxyConfig } from "./modules/proxy";
 import { config } from "../config";
 import { logger } from "../logger";
+import { ReminderStore } from "./modules/reminder";
 
 export async function init() {
     const client = new CookiecordClient(
@@ -43,4 +44,10 @@ export interface DiscordConfig {
     token: string;
     botAdmins: string[];
     proxy: ProxyConfig;
+    comic: ComicConfig;
+}
+
+export interface DiscordStore {
+    reminder: ReminderStore;
+    comic: ComicStore;
 }
