@@ -1,11 +1,11 @@
 import { init } from "./discord";
-import dotenv from "dotenv-safe";
 import { config } from "./config";
+import { store } from "./store"; // for eval ctx
 import readline from "readline";
 import { inspect } from "util";
+import { logger } from "./logger";
 
 async function main() {
-    dotenv.config();
     const client = await init();
 
     if (!config.production) {
@@ -17,7 +17,11 @@ async function main() {
         }
         while (true) {
             const js = await prompt();
-            console.log(inspect(eval(js), false, 2, true));
+            try {
+                console.log(inspect(eval(js), false, 2, true));
+            } catch (err: unknown) {
+                logger.error(err);
+            }
         }
     }
 
