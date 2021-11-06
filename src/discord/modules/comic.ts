@@ -12,7 +12,7 @@ import {
     CommonInhibitors,
 } from "cookiecord";
 import { logger } from "../../logger";
-import { store } from "../store";
+import { store } from "../../store";
 import { ComicSource, fetchers, isComicSource } from "../../api/comic";
 import { URL } from "url";
 

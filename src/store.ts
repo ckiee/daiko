@@ -1,6 +1,6 @@
 import { readFileSync, writeFileSync, existsSync } from "fs";
 import { join } from "path";
-import { ComicStore } from "./modules/comic";
+import { ComicStore } from "./discord/modules/comic";
 
 interface Store { comic: ComicStore }
 
