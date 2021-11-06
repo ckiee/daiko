@@ -21,7 +21,7 @@
         "postinstall": "tsc && sed -i '1i#!/usr/bin/env node' dist/index.js && chmod +x dist/index.js"
     },
     "devDependencies": {
-        "@types/node": "^16.6.1",
+        "@types/node": "^16.11.6",
         "@types/node-fetch": "^2.5.12"
     }
 }
