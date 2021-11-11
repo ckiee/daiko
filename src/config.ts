@@ -1,5 +1,6 @@
 import { readFileSync } from "fs";
 import { join } from "path";
+import { PluralKitConfig } from "./api/pk";
 import { DiscordConfig } from "./discord";
 import { IscoolConfig } from "./iscool";
 
@@ -15,6 +16,7 @@ interface DaikoConfig {
     twilio: TwilioConfig;
     discord: DiscordConfig;
     iscool: IscoolConfig;
+    pluralkit: PluralKitConfig;
 }
 
 const CONFIG_FILE_PATH = join(process.cwd(), "config.json");

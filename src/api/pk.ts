@@ -8,6 +8,7 @@ import {
     GuildMember,
     ThreadMember,
 } from "discord.js";
+import { config } from "../config"
 
 export class PluralKitAPI {
     PK_BASE = "https://api.pluralkit.me/v1";
@@ -15,9 +16,9 @@ export class PluralKitAPI {
         "User-Agent":
             "daiko (https://github.com/ckiee/daiko/blob/master/src/api/pk.ts)",
         "Content-Type": "application/json",
-        "Authorization": this.token
+        "Authorization": this.authorized ? config.pluralkit.token : ""
     };
-    constructor(private token: string = "") { }
+    constructor(private authorized: boolean) { }
 
     private async getJSON(path: string): Promise<any> {
         const res = await fetch(this.PK_BASE + path, {
@@ -102,4 +103,8 @@ export interface PluralSystem {
     tz: string;
     created: string;
     // null fields omitted
+}
+
+export interface PluralKitConfig {
+    token: string;
 }

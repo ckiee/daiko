@@ -5,7 +5,7 @@ import { logger } from "../../logger";
 import { config } from "../../config";
 
 export default class ProxyManager extends Module {
-    private pk = new PluralKitAPI(process.env.PK_TOKEN!);
+    private pk = new PluralKitAPI(true);
     private config = config.discord.proxy;
 
     constructor(client: CookiecordClient) {
