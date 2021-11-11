@@ -33,11 +33,12 @@ export class PluralKitAPI {
 
     private async postJSON(path: string, data: any): Promise<void> {
         logger.info(`${path} + ${JSON.stringify(data)}`);
-        await fetch(this.PK_BASE + path, {
+        const res = await fetch(this.PK_BASE + path, {
             method: "POST",
             body: JSON.stringify(data),
             headers: this.headers
         });
+        if (!res.ok) throw new Error(`POST ${path} returned ${res.status}`);
     }
 
     @MemoizeExpiring(900000) // 15 min
