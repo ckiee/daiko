@@ -1,11 +1,22 @@
 # daiko
 
-new README under construction as i'm merging this with [sysyelper](https://github.com/ckiee/sysyelper)
-<hr>
-This program scrapes my [school's schedule](https://iscool.co.il) to send my mom an SMS using Twilio with the amount of sandwiches required for tomorrow based on the number and size of breaks.
+> *Once, long ago, the "services" were a common site; those little shiny metal boxes on the floor were separate.*
+> *Then the great unification came, and all was `daiko`. And `daiko` was all.*
+> 
+> *This is the result of that. My very own polished monolith.*
 
-## Setup
-Have a look [for yourself](https://github.com/ckiee/nixfiles/blob/7777e15a7952eb0de7f453229a4bf17102147cfb/modules/services/iscool.nix).
+daiko is...
+
+- a [Discord](https://discord.com) bot for my personal server
+- a scraper for my school's lesson scheduling
+- an interface to various messaging platforms. (SMS, Discord, TTS calling soon)
+- an intergration with [PluralKit](https://pluralkit.me) to automatically suggest registering switches
+- ...and everything else I will think of~
+
+## Usage
+
+Read the code (or [the code](https://github.com/ckiee/nixfiles/blob/29d67aa9344b2218ee5816681b369f856262151d/modules/services/daiko.nix) that deploys it) to learn how it works since I'm not really expecting anyone else to use this.
+The configuration schema lives in `src/config.ts` - read it and plop a `config.json` down in your working directory.
 
 ## License
 
