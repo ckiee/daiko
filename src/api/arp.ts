@@ -6,7 +6,7 @@ export async function getArpTable() {
     const res = await fetch("http://darcher.atori/Status_Lan.live.asp", {
         headers: {
             "User-Agent": "daiko",
-            "Authorization": "Basic Y2tpZTp1JmZNIXVoZHpAQTVNSnk2RV54c0Jr"
+            "Authorization": "Basic secret_was_invalid_anyway"
         }
     });
     if (!res.ok) throw new Error("darcher request failed with " + res.status);
