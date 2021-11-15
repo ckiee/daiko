@@ -6,7 +6,7 @@ import FunModule from "./modules/fun";
 import ProxyManager, { ProxyConfig } from "./modules/proxy";
 import { config } from "../config";
 import { logger } from "../logger";
-import { ReminderStore } from "./modules/reminder";
+import ReminderModule, { ReminderStore } from "./modules/reminder";
 
 export async function init() {
     const client = new CookiecordClient(
@@ -33,6 +33,7 @@ export async function init() {
         client.registerModule(FunModule);
         client.registerModule(ComicPoller);
         client.registerModule(AdminModule);
+        client.registerModule(ReminderModule);
     }
 
     client.login(config.discord.token);
