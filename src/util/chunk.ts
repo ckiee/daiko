@@ -1,7 +1,6 @@
 export function chunk<T>(arr: T[], pieces: number): T[][] {
-    console.log(arr, pieces);
     if (arr.length == 0) return [];
-    if (pieces < arr.length) throw new RangeError("pieces >= arr.length not allowed");
+    if (arr.length < pieces) throw new RangeError(`array isn't long enough (${arr.length}) to chunk (${pieces})`);
 
     return Array(pieces).fill(0)
         .map((_, i) => arr.slice(i * pieces, i * pieces + pieces))  // : [[a, b], [c, d], [], []]
