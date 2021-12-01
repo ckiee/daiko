@@ -30,8 +30,9 @@ export default class ComicPoller extends Module {
     }
 
     async pollComics() {
-        for (let key in this.data.comics) {
+        for (let key in this.config.comics) {
             const comic = this.config.comics[key];
+            if (!this.data.comics[key]) this.data.comics[key] = { maxPageId: 0 };
             const comicState = this.data.comics[key];
             logger.trace(`now polling ${key} with ${comic.source}`);
             const meta = await fetchers[comic.source](new URL(comic.url))();
