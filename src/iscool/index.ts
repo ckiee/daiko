@@ -46,8 +46,8 @@ export function init() {
     let lastExecutedMs = 0;
     setInterval(async () => {
         const now = new Date();
-        // on every day other than friday, execute at 18:30 (6:30pm) if we didn't excecute within the last hour
-        if (now.getDay() !== 5 && now.getHours() == 18 && now.getMinutes() == 30 && (Date.now() - lastExecutedMs) > HOUR) {
+        // on every day other than friday, execute at 17:15 (5:15) if we didn't excecute within the last hour
+        if (now.getDay() !== 5 && now.getHours() == 17 && now.getMinutes() == 15 && (Date.now() - lastExecutedMs) > HOUR) {
             await sendSandwichMessage();
             lastExecutedMs = Date.now();
         }
