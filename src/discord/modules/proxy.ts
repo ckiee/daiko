@@ -15,7 +15,9 @@ export default class ProxyManager extends Module {
     async findProxyTag(content: string): Promise<SystemMember | undefined> {
         const sys = await this.pk.getSystemById(this.config.pkSystemId);
         const members = await this.pk.getMembers(sys);
-        return members.filter(m => content.includes(m.description))[0];
+        return members
+            .filter(m => m.description)
+            .filter(m => content.includes(m.description))[0];
     }
 
     @listener({ event: "messageCreate" })

@@ -86,7 +86,7 @@ export interface SystemMember {
     avatar_url: string;
     birthday: string;
     pronouns: string;
-    description: string;
+    description?: string;
     proxy_tags: { prefix: string; suffix: string }[];
     keep_proxy: boolean;
     created: string;
