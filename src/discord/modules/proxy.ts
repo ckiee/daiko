@@ -17,7 +17,7 @@ export default class ProxyManager extends Module {
         const members = await this.pk.getMembers(sys);
         return members
             .filter(m => m.description)
-            .filter(m => content.includes(m.description))[0];
+            .filter(m => content.includes(m.description!))[0];
     }
 
     @listener({ event: "messageCreate" })

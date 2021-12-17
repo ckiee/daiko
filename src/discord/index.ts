@@ -23,14 +23,17 @@ export async function init() {
                 Intents.FLAGS.DIRECT_MESSAGES,
                 Intents.FLAGS.DIRECT_MESSAGE_REACTIONS
             ],
+            partials: [
+                "CHANNEL"
+            ]
         }
     );
 
+    client.registerModule(HelpModule);
     if (!config.production) {
         client.loadModulesFromFolder("src/discord/modules");
         client.reloadModulesFromFolder("src/discord/modules");
     } else {
-        client.registerModule(HelpModule);
         client.registerModule(ProxyManager);
         client.registerModule(FunModule);
         client.registerModule(ComicPoller);
