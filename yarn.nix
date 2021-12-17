@@ -282,11 +282,11 @@
       };
     }
     {
-      name = "cookiecord___cookiecord_0.8.18.tgz";
+      name = "cookiecord___cookiecord_0.8.19.tgz";
       path = fetchurl {
-        name = "cookiecord___cookiecord_0.8.18.tgz";
-        url  = "https://registry.yarnpkg.com/cookiecord/-/cookiecord-0.8.18.tgz";
-        sha1 = "82b42b752095c4e62f43f08624b7782602f0a9ea";
+        name = "cookiecord___cookiecord_0.8.19.tgz";
+        url  = "https://registry.yarnpkg.com/cookiecord/-/cookiecord-0.8.19.tgz";
+        sha1 = "df68093734169df6937dac6542bde53f4b71b76b";
       };
     }
     {
