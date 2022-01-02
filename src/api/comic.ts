@@ -84,7 +84,7 @@ export const fetchers = {
             $("#_listUl > li > a").each((_, e) => {
                 const url = $(e).attr("href");
                 if (!url || url.trim() == "") return;
-                const title = $(e).children(".subj span").text();
+                const title = $(e).children(".subj").text().replace(/UP$/g, "");
                 const parsedURL = new URL(url);
                 pages.push({
                     url,
