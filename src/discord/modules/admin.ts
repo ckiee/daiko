@@ -2,6 +2,7 @@ import CookiecordClient, { command, CommonInhibitors, Module } from "cookiecord"
 import { Message } from "discord.js";
 import { inspect } from "util";
 import { logger } from "../../logger";
+import { store } from "../../store";
 
 export default class AdminModule extends Module {
     constructor(client: CookiecordClient) {
@@ -16,6 +17,7 @@ export default class AdminModule extends Module {
     async eval(msg: Message, js: string) {
         logger.warn(`${msg.author.tag} ${msg.author.id}: EVAL: ${js}`);
         try {
+            const str = store; // for the eval context, nice and easy
             let result = eval(js);
             if (result instanceof Promise) result = await result;
             if (typeof result != `string`) result = inspect(result);
