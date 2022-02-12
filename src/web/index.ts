@@ -17,7 +17,7 @@ export function init() {
         res.json({ message: "Hey.. whatcha doing here?!" });
     });
 
-    app.use(lastx());
+    app.use("/lastx", lastx());
 
     app.use((req, res, next) => {
         res.sendStatus(404);
