@@ -11,16 +11,17 @@ daiko is...
 - a scraper for my school's lesson scheduling
 - an interface to various messaging platforms. (SMS, Discord, TTS calling soon)
 - an intergration with [PluralKit](https://pluralkit.me) to automatically suggest registering switches
+- a wake time & shower tracker
 - ...and everything else I will think of~
 
 ## Usage
 
-Read the code (or [the code](https://github.com/ckiee/nixfiles/blob/29d67aa9344b2218ee5816681b369f856262151d/modules/services/daiko.nix) that deploys it) to learn how it works since I'm not really expecting anyone else to use this.
+Read the code (or [the code](https://github.com/ckiee/nixfiles/blob/master/modules/services/daiko.nix) that deploys it) to learn how it works since I'm not really expecting anyone else to use this.
 The configuration schema lives in `src/config.ts` - read it and plop a `config.json` down in your working directory.
 
 ## License
 
-    Copyright (C) 2021 ckie
+    Copyright (C) 2021-2022 ckie
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
