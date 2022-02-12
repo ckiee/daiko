@@ -22,7 +22,8 @@ export function init() {
     app.use((req, res, next) => {
         res.sendStatus(404);
     });
-    app.listen(config.port, () => logger.info(`listening on port ${config.port}`));
+    const port = parseInt(process.env.WEB_PORT!, 10) || config.port;
+    app.listen(port, () => logger.info(`listening on port ${port}`));
 }
 
 export interface WebConfig {
