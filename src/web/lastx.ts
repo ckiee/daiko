@@ -16,10 +16,9 @@ export function lastx() {
         const sleepUnix = last(store.web.lastx.sleep);
         const wakeUnix = last(store.web.lastx.wake);
         if (sleepUnix < wakeUnix) {
-            return res.json({message: "awake"});
+            return res.json({message: `awake since ${new Date(wakeUnix)}`});
         } else {
-            const HOUR_MS = 3.6e+6;
-            return res.json({message: `asleep for ${(sleepUnix - wakeUnix) / HOUR_MS}hrs`});
+            return res.json({message: `asleep since ${new Date(sleepUnix)}`});
         }
     });
 
