@@ -1,11 +1,13 @@
 import { readFileSync, writeFileSync, existsSync, renameSync } from "fs";
 import { join } from "path";
 import { DiscordStore } from "./discord";
+import { IscoolStore } from "./iscool";
 import { WebStore } from "./web";
 
 interface DaikoStore {
     discord: DiscordStore
     web: WebStore
+    iscool: IscoolStore
 }
 
 
@@ -19,6 +21,9 @@ if (!existsSync(STORE_FILE_PATH)) saveToDisk({
     },
     web: {
         lastx: { shower: [], wake: [] }
+    },
+    iscool: {
+        sendSandwich: true
     }
 });
 

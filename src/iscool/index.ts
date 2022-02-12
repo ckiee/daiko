@@ -2,6 +2,7 @@ import { IscoolOptimizer } from "./optimizer";
 import { IscoolScraper, msTimeToHuman } from "./scraper";
 import twilio from "twilio";
 import { config } from "../config";
+import { store } from "../store";
 
 export async function getSchedule() {
     const scraper = new IscoolScraper();
@@ -48,7 +49,8 @@ export function init() {
         const now = new Date();
         // on every day other than friday, execute at 17:15 (5:15) if we didn't excecute within the last hour
         if (now.getDay() !== 5 && now.getHours() == 17 && now.getMinutes() == 15 && (Date.now() - lastExecutedMs) > HOUR) {
-            await sendSandwichMessage();
+            if (store.iscool.sendSandwich)
+                await sendSandwichMessage();
             lastExecutedMs = Date.now();
         }
     }, SECOND * 15)
@@ -57,4 +59,8 @@ export function init() {
 export interface IscoolConfig {
     subdomain: string;
     classIndex: number;
+}
+
+export interface IscoolStore {
+    sendSandwich: boolean;
 }
