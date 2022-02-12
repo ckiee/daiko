@@ -4,6 +4,7 @@ import { ArpConfig } from "./api/arp";
 import { PluralKitConfig } from "./api/pk";
 import { DiscordConfig } from "./discord";
 import { IscoolConfig } from "./iscool";
+import { WebConfig } from "./web";
 
 interface TwilioConfig {
     accountSid: string;
@@ -19,6 +20,7 @@ interface DaikoConfig {
     iscool: IscoolConfig;
     pluralkit: PluralKitConfig;
     arp: ArpConfig;
+    web: WebConfig;
 }
 
 const CONFIG_FILE_PATH = join(process.cwd(), "config.json");

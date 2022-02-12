@@ -1,5 +1,6 @@
 import { init as discordInit } from "./discord";
 import { init as iscoolInit } from "./iscool";
+import { init as webInit } from "./web";
 import { config } from "./config";
 import { store } from "./store"; // for eval ctx
 import readline from "readline";
@@ -9,6 +10,7 @@ import { logger } from "./logger";
 async function main() {
     const discord = await discordInit();
     iscoolInit();
+    webInit();
 
     if (!config.production) {
         const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
