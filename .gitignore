@@ -120,5 +120,5 @@ dist
 # project-specific
 out.json
 result
-store.json
+store.json*
 config.json
