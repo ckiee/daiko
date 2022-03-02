@@ -16,19 +16,21 @@ export function lastx() {
         const sleepUnix = last(store.web.lastx.sleep);
         const wakeUnix = last(store.web.lastx.wake);
         if (sleepUnix < wakeUnix) {
-            return res.json({message: `awake since ${new Date(wakeUnix)}`});
+            return res.json({ message: `awake since ${new Date(wakeUnix)}` });
         } else {
-            return res.json({message: `asleep since ${new Date(sleepUnix)}`});
+            return res.json({ message: `asleep since ${new Date(sleepUnix)}` });
         }
     });
 
     app.post("/",
         authenticationCheck("rw"),
-        validateBody({ target: sch("string") }),
+        validateBody({ target: sch("string"), dateTime: sch("string") }),
         (req, res) => {
-            const { target } = req.body as { target: string };
+            const { target, dateTime } = req.body as { target: string, dateTime: string; };
             if (target == "shower" || target == "wake" || target == "sleep") {
-                store.web.lastx[target].push(Date.now());
+                const date = new Date(dateTime).getTime();
+                if (isNaN(date)) return bad("invalid dateTime", res);
+                store.web.lastx[target].push(date);
                 res.json({ message: "ok" });
             } else {
                 return bad("unknown target", res);
