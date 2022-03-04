@@ -794,11 +794,11 @@
       };
     }
     {
-      name = "follow_redirects___follow_redirects_1.14.7.tgz";
+      name = "follow_redirects___follow_redirects_1.14.9.tgz";
       path = fetchurl {
-        name = "follow_redirects___follow_redirects_1.14.7.tgz";
-        url  = "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.14.7.tgz";
-        sha512 = "+hbxoLbFMbRKDwohX8GkTataGqO6Jb7jGwpAlwgy2bIz25XtRm7KEzJM76R1WiNT5SwZkX4Y75SwBolkpmE7iQ==";
+        name = "follow_redirects___follow_redirects_1.14.9.tgz";
+        url  = "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.14.9.tgz";
+        sha512 = "MQDfihBQYMcyy5dhRDJUHcw7lb2Pv/TuE6xP1vyraLukNDHKbDxDNaOE3NbCAdKQApno+GPRyo1YAp89yCjK4w==";
       };
     }
     {
@@ -1287,14 +1287,6 @@
         name = "node_addon_api___node_addon_api_3.2.1.tgz";
         url  = "https://registry.yarnpkg.com/node-addon-api/-/node-addon-api-3.2.1.tgz";
         sha512 = "mmcei9JghVNDYydghQmeDX8KoAm0FAiYyIcUt/N4nhyAipB17pllZQDOJD2fotxABnt4Mdz+dKTO7eftLg4d0A==";
-      };
-    }
-    {
-      name = "node_fetch___node_fetch_2.6.6.tgz";
-      path = fetchurl {
-        name = "node_fetch___node_fetch_2.6.6.tgz";
-        url  = "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.6.tgz";
-        sha512 = "Z8/6vRlTUChSdIgMa51jxQ4lrw/Jy5SOW10ObaA47/RElsAN2c5Pn8bTgFGWn/ibwzXTE8qwr1Yzx28vsecXEA==";
       };
     }
     {
@@ -1810,11 +1802,11 @@
       };
     }
     {
-      name = "url_parse___url_parse_1.5.3.tgz";
+      name = "url_parse___url_parse_1.5.10.tgz";
       path = fetchurl {
-        name = "url_parse___url_parse_1.5.3.tgz";
-        url  = "https://registry.yarnpkg.com/url-parse/-/url-parse-1.5.3.tgz";
-        sha512 = "IIORyIQD9rvj0A4CLWsHkBBJuNqWpFQe224b6j9t/ABmquIS0qDU2pY6kl6AuOrL5OkCXHMCFNe1jBcuAggjvQ==";
+        name = "url_parse___url_parse_1.5.10.tgz";
+        url  = "https://registry.yarnpkg.com/url-parse/-/url-parse-1.5.10.tgz";
+        sha512 = "WypcfiRhfeUP9vvF0j6rw0J3hrWrw6iZv3+22h6iRMJ/8z1Tj6XfLP4DsUix5MhMPnXpiHDoKyoZ/bdCkwBCiQ==";
       };
     }
     {
