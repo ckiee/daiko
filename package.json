@@ -9,7 +9,7 @@
         "cookiecord": "^0.8.19",
         "express": "^4.17.2",
         "helmet": "^5.0.2",
-        "node-fetch": "^2.6.1",
+        "node-fetch": "^2.6.7",
         "parse-duration": "^1.0.2",
         "pretty-ms": "^7.0.1",
         "tracer": "^1.1.5",
