@@ -7,6 +7,7 @@ import ProxyManager, { ProxyConfig } from "./modules/proxy";
 import { config } from "../config";
 import { logger } from "../logger";
 import ReminderModule, { ReminderStore } from "./modules/reminder";
+import LinesModule, { LinesConfig } from "./modules/lines";
 
 export async function init() {
     const client = new CookiecordClient(
@@ -39,6 +40,7 @@ export async function init() {
         client.registerModule(ComicPoller);
         client.registerModule(AdminModule);
         client.registerModule(ReminderModule);
+        client.registerModule(LinesModule);
     }
 
     client.login(config.discord.token);
@@ -51,6 +53,7 @@ export interface DiscordConfig {
     botAdmins: string[];
     proxy: ProxyConfig;
     comic: ComicConfig;
+    lines: LinesConfig;
 }
 
 export interface DiscordStore {
