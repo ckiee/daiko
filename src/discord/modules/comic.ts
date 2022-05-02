@@ -49,7 +49,7 @@ export default class ComicPoller extends Module {
                         throw new Error("comics channel has unexpected type " + chan.type);
 
                     await (<TextChannel>chan).send({
-                        content: this.config.extraContent,
+                        content: comic.sendExtraContent ? this.config.extraContent : null,
                         embeds: [embed],
                     });
                     comicState.maxPageId = latest.id;
@@ -64,6 +64,7 @@ export default class ComicPoller extends Module {
 interface PolledComic {
     source: ComicSource;
     url: string;
+    sendExtraContent: boolean;
 }
 export interface ComicConfig {
     comics: { [key: string]: PolledComic };
