@@ -40,7 +40,7 @@ export function lastx() {
                     const lines = [...discord.modules].filter(m => m.constructor == LinesModule)[0] as LinesModule;
                     const chan = await discord.channels.fetch(lines.config.channelId);
                     if (!chan || !chan.isText()) throw new Error("grr, missing discord channel or wrong type");
-                    await chan.send(lines.getLineMessage());
+                    await chan.send(lines.getLineMessage("all"));
                 }
 
                 res.json({ message: "ok" });

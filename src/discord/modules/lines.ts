@@ -21,17 +21,17 @@ export default class LinesModule extends Module {
 
     @command({ description: "my lil lines..", inhibitors: [CommonInhibitors.botAdminsOnly] })
     async lines(msg: Message, @optional filter?: string) {
-        await msg.reply(this.getLineMessage(filter ? [...filter] : [..."*Ms"]));
+        await msg.reply(this.getLineMessage(filter ? [...filter] : "all"));
     }
 
-    public getLineMessage(showLabels: string[]): string {
+    public getLineMessage(showLabels: string[] | "all"): string {
         const msToDays = (ms: number) => Math.round(ms / this.DAY);
         const events = ([
             ["*", Date.now() - this.START],
             ["M", this.MAIN_END - Date.now()],
             ["s", this.SCH_END - Date.now()]
         ] as const)
-            .filter(([l, _]) => showLabels.includes(l))
+            .filter(([l, _]) => showLabels == "all" || showLabels.includes(l))
             .map(([_, ms]) => [_, msToDays(ms)]) as [string, number][];
 
         const displayDayCount = Math.max(...events.map(x => x[1]));
