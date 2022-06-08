@@ -11,7 +11,7 @@ import {
 import { config } from "../config"
 
 export class PluralKitAPI {
-    PK_BASE = "https://api.pluralkit.me/v1";
+    PK_BASE = "https://api.pluralkit.me/v2";
     private headers = {
         "User-Agent":
             "daiko (https://github.com/ckiee/daiko/blob/master/src/api/pk.ts)",
@@ -44,17 +44,17 @@ export class PluralKitAPI {
 
     @MemoizeExpiring(900000) // 15 min
     async getMembers(sys: PluralSystem): Promise<SystemMember[]> {
-        return await this.getJSON(`/s/${sys.id}/members`);
+        return await this.getJSON(`/systems/${sys.id}/members`);
     }
 
     @MemoizeExpiring(500)
     async getFronters(sys: PluralSystem): Promise<SystemMember[]> {
-        return (await this.getJSON(`/s/${sys.id}/fronters`)).members;
+        return (await this.getJSON(`/systems/${sys.id}/fronters`)).members;
     }
 
     @MemoizeExpiring(3.6e6) // 1 hour
     async getSystemById(id: string): Promise<PluralSystem> {
-        return await this.getJSON(`/s/${id}`);
+        return await this.getJSON(`/systems/${id}`);
     }
 
     @MemoizeExpiring(3.6e6) // 1 hour
@@ -71,11 +71,11 @@ export class PluralKitAPI {
         else if (resolvable instanceof Message) id = resolvable.author.id;
         else throw new Error("could not resolve UserResolvable");
 
-        return await this.getJSON(`/a/${id}`);
+        return await this.getSystemById(id);
     }
 
     async postSwitch(members: SystemMember[]) {
-        await this.postJSON("/s/switches", { members: members.map((m) => m.id) });
+        await this.postJSON("/systems/switches", { members: members.map((m) => m.id) });
     }
 }
 
