@@ -43,7 +43,8 @@ export default class ReminderModule extends Module {
 			id: uuid(),
 			userId: msg.author.id,
 			date: Date.now() + dur,
-			message: splitArgs.join(" ")
+			message: splitArgs.join(" "),
+			channelId: msg.channelId
 		};
 
 		if (rem.message?.trim().length == 0) rem.message = undefined;
@@ -81,7 +82,7 @@ export default class ReminderModule extends Module {
 			await msg.reply({
 				embeds: [{
 					title: `Your Reminders (${userReminders.length})`,
-					description: userReminders.map(rem => `- \`${rem.message || "No message provided"}\` in ${prettyMs(rem.date - Date.now())}`).join("\n")
+					description: userReminders.map(rem => `- \`${rem.message || "No message provided"}\` in ${prettyMs(rem.date - Date.now())} for <#${rem.channelId}>`).join("\n")
 				}]
 			})
 		}
@@ -89,13 +90,19 @@ export default class ReminderModule extends Module {
 
 	async sendReminder(rem: Reminder) {
 		const user = await this.client.users.fetch(rem.userId);
+		let chan = await this.client.channels.fetch(rem.channelId);
+
+		if (!chan) chan = user.dmChannel;
+		if (!chan || !chan.isText()) return;
+
 		if (!rem.message) {
-			user.send(":clock1: hey! you asked me to remind you.");
+			chan.send(":clock1: hey! you asked me to remind you.");
 		} else {
-			user.send(
+			chan.send(
 				`:clock1: hey! you asked me to remind you about "${rem.message}"`
 			);
 		}
+
 		delete this.store.reminders[rem.id];
 	}
 }
@@ -105,6 +112,7 @@ interface Reminder {
 	userId: string;
 	date: number;
 	message?: string;
+	channelId: string;
 }
 
 export interface ReminderStore {
