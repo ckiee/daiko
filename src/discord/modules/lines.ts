@@ -17,6 +17,7 @@ export default class LinesModule extends Module {
     START = 1615613520000;
     SCH_END = 1718166720000;
     MAIN_END = 1697414400000;
+    XCMPFIN_END = 1657520394933;
     DAY = 86400000;
 
     @command({ description: "my lil lines..", inhibitors: [CommonInhibitors.botAdminsOnly] })
@@ -26,10 +27,12 @@ export default class LinesModule extends Module {
 
     public getLineMessage(showLabels: string[] | "all"): string {
         const msToDays = (ms: number) => Math.round(ms / this.DAY);
+
         const events = ([
             ["*", Date.now() - this.START],
             ["M", this.MAIN_END - Date.now()],
-            ["s", this.SCH_END - Date.now()]
+            ["s", this.SCH_END - Date.now()],
+            ["🥺", this.XCMPFIN_END - Date.now()]
         ] as const)
             .filter(([l, _]) => showLabels == "all" || showLabels.includes(l))
             .map(([_, ms]) => [_, msToDays(ms)]) as [string, number][];
