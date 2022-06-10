@@ -30,8 +30,10 @@ export default class ComicPoller extends Module {
         for (let key in this.config.comics) {
             try {
                 const comic = this.config.comics[key];
+                if (!comic.enabled) continue;
                 if (!this.data.comics[key]) this.data.comics[key] = { maxPageId: 0 };
                 const comicState = this.data.comics[key];
+
                 logger.trace(`now polling ${key} with ${comic.source}`);
                 const meta = await fetchers[comic.source](new URL(comic.url))();
                 const latest = meta.pages[meta.pages.length - 1];
@@ -62,6 +64,7 @@ export default class ComicPoller extends Module {
 }
 
 interface PolledComic {
+    enabled: boolean;
     source: ComicSource;
     url: string;
     sendExtraContent: boolean;
