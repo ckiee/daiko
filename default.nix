@@ -3,7 +3,7 @@
 with pkgs;
 let
   yarn2nix = yarn2nix-moretea.override {
-    nodejs = nodejs-17_x;
+    nodejs = nodejs-18_x;
     yarn = pkgs.yarn.override { inherit nodejs; };
   };
 in yarn2nix.mkYarnPackage rec {
