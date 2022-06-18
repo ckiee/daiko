@@ -15,8 +15,6 @@ export default class LinesModule extends Module {
     }
 
     START = 1615613520000;
-    SCH_END = 1718166720000;
-    MAIN_END = 1697414400000;
     DAY = 86400000;
 
     @command({ description: "my lil lines..", inhibitors: [CommonInhibitors.botAdminsOnly] })
@@ -26,11 +24,11 @@ export default class LinesModule extends Module {
 
     public getLineMessage(showLabels: string[] | "all"): string {
         const msToDays = (ms: number) => Math.round(ms / this.DAY);
+        const getChFromLabel = (t: string) => [...t].filter(x => x.toUpperCase() == x).join("")[0];
         const events = ([
             ["*", Date.now() - this.START],
-            ["M", this.MAIN_END - Date.now()],
-            ["s", this.SCH_END - Date.now()]
-        ] as const)
+            ...this.config.events.map(([text, time]) => [getChFromLabel(text), time - Date.now()])
+        ] as [string, number][])
             .filter(([l, _]) => showLabels == "all" || showLabels.includes(l))
             .map(([_, ms]) => [_, msToDays(ms)]) as [string, number][];
 
@@ -55,4 +53,5 @@ ${BQ}`;
 
 export interface LinesConfig {
     channelId: string;
+    events: [string, number][];
 }
