@@ -38,7 +38,7 @@ export default class LinesModule extends Module {
 
         const buf = Array(displayDayCount).fill("?").map((_, i) => {
             const progressEvent = events[0][1] >= i;
-            const maybeEvent = events.slice(1).filter(([label, ei]) => ei == i + 1)[0];
+            const maybeEvent = events.slice(1).filter(([_label, ei]) => ei == i + 1)[0];
             return (maybeEvent ? maybeEvent[0] : (progressEvent ? events[0][0] : "_")) +
                 ((i + 1) % 80 == 0 ? "\n" : "");
         }).join("");
