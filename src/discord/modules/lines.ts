@@ -24,20 +24,21 @@ export default class LinesModule extends Module {
 
     public getLineMessage(showLabels: string[] | "all"): string {
         const msToDays = (ms: number) => Math.round(ms / this.DAY);
-        const getChFromLabel = (t: string) => [...t].filter(x => x.toUpperCase() == x).join("")[0];
         const events = ([
             ["*", Date.now() - this.START],
-            ...this.config.events.map(([text, time]) => [getChFromLabel(text), time - Date.now()])
+            ...this.config.events.map(([text, time]) => [text[0], time - this.START])
         ] as [string, number][])
             .filter(([l, _]) => showLabels == "all" || showLabels.includes(l))
             .map(([_, ms]) => [_, msToDays(ms)]) as [string, number][];
 
+        const progress = events[0][1];
+
         const displayDayCount = Math.max(...events.map(x => x[1]));
 
         const buf = Array(displayDayCount).fill("?").map((_, i) => {
-            const progressEvent = events[0][1] >= i;
+            const progressEvent = progress >= i;
             const maybeEvent = events.slice(1).filter(([_label, ei]) => ei == i + 1)[0];
-            return (maybeEvent ? maybeEvent[0] : (progressEvent ? events[0][0] : "_")) +
+            return (maybeEvent ? maybeEvent[0] : (progressEvent ? "*" : "_")) +
                 ((i + 1) % 80 == 0 ? "\n" : "");
         }).join("");
 
@@ -46,7 +47,7 @@ export default class LinesModule extends Module {
 ${buf}
 
 ${events.map(([l, d]) => `${l}: ${d}`).join("\t\t")}
-${events.map(([l, d]) => `${l}-${events[0][0]}: ${d - events[0][1]}`).join("\t")}
+${events.map(([l, d]) => `${l}-${events[0][0]}: ${d - progress}`).join("\t")}
 ${BQ}`;
     }
 }
