@@ -22,6 +22,7 @@ export default class ProxyManager extends Module {
 
     @listener({ event: "messageCreate" })
     async autoSwitchOnProxy(msg: Message) {
+        if (this.config.disabled) return;
         if (!this.client.botAdmins.includes(msg.author.id)) return;
         const newMember = await this.findProxyTag(msg.content);
         if (!newMember) return;
@@ -49,4 +50,5 @@ export default class ProxyManager extends Module {
 
 export interface ProxyConfig {
     pkSystemId: string;
+    disabled?: boolean;
 }
