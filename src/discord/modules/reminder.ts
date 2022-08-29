@@ -98,7 +98,7 @@ export default class ReminderModule extends Module {
 		const hey = rem.channelId == user.dmChannel?.id ? "hey!" : `hey <@${rem.userId}>`;
 
 		if (!rem.message) {
-			chan.send(":clock1: ${hey} you asked me to remind you.");
+			chan.send(`:clock1: ${hey} you asked me to remind you.`);
 		} else {
 			chan.send(
 				`:clock1: ${hey} you asked me to remind you about "${rem.message}"`
