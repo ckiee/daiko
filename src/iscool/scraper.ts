@@ -5,6 +5,7 @@ import { config } from "../config";
 // slot = single time slot
 
 export class IscoolScraper {
+    public constructor(private classIndex: number = config.iscool.classIndex) {}
     async fetchHtml() {
         const res = await fetch(`https://${config.iscool.subdomain}.iscool.co.il/default.aspx`, {
             "headers": {
@@ -42,7 +43,7 @@ CA0B0334
 -----------------------------252371569425890445663172039469
 Content-Disposition: form-data; name=\"dnn$ctr18597$TimeTableView$ClassesList\"
 
-${config.iscool.classIndex}
+${this.classIndex}
 -----------------------------252371569425890445663172039469
 Content-Disposition: form-data; name=\"dnn$ctr18597$TimeTableView$ControlId\"
 
