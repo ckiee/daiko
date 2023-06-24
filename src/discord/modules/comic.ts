@@ -70,10 +70,10 @@ interface PolledComic {
     sendExtraContent: boolean;
 }
 export interface ComicConfig {
-    comics: { [key: string]: PolledComic };
+    comics: Record<string, PolledComic>
     channelId: string;
     extraContent: string;
 }
 export interface ComicStore {
-    comics: { [key: string]: { maxPageId: number; } }
+    comics: Record<string, { maxPageId: number; }>
 }
