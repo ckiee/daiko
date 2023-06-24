@@ -644,18 +644,16 @@
     {
     name = "d0bc4d7ff037035d4f315a0286b06f0a1ade29c1";
     path =
-      let
-        repo = fetchgit {
-          url = "https://github.com/discordjs/discord.js.git";
-          rev = "d0bc4d7ff037035d4f315a0286b06f0a1ade29c1";
-          sha256 = "1znqxqgp6x6p4fpm47g6mpqabg7qgzbp9spldv34krxi38qp3f86";
-        };
-      in
-        runCommand "d0bc4d7ff037035d4f315a0286b06f0a1ade29c1" { buildInputs = [gnutar]; } ''
-          # Set u+w because tar-fs can't unpack archives with read-only dirs
-          # https://github.com/mafintosh/tar-fs/issues/79
-          tar cf $out --mode u+w -C ${repo} .
-        '';
+      let repo = fetchgit {
+         url = "https://github.com/discordjs/discord.js.git";
+         rev = "d0bc4d7ff037035d4f315a0286b06f0a1ade29c1";
+         sha256 = "1znqxqgp6x6p4fpm47g6mpqabg7qgzbp9spldv34krxi38qp3f86";
+       };
+      in runCommand "d0bc4d7ff037035d4f315a0286b06f0a1ade29c1" { buildInputs = [gnutar]; } ''
+        # Set u+w because tar-fs can't unpack archives with read-only dirs
+        # https://github.com/mafintosh/tar-fs/issues/79
+        tar cf $out --mode u+w -C ${repo} .
+      '';
   }
     {
       name = "dom_serializer___dom_serializer_1.3.2.tgz";
@@ -1743,6 +1741,14 @@
         name = "ts_node___ts_node_10.4.0.tgz";
         url  = "https://registry.yarnpkg.com/ts-node/-/ts-node-10.4.0.tgz";
         sha512 = "g0FlPvvCXSIO1JDF6S232P5jPYqBkRL9qly81ZgAOSU7rwI0stphCgd2kLiCrU9DjQCrJMWEqcNSjQL02s6d8A==";
+      };
+    }
+    {
+      name = "ts_xor___ts_xor_1.1.0.tgz";
+      path = fetchurl {
+        name = "ts_xor___ts_xor_1.1.0.tgz";
+        url  = "https://registry.yarnpkg.com/ts-xor/-/ts-xor-1.1.0.tgz";
+        sha512 = "9vtspo9gVrmJR0XQyuNySpr6DhZztCDWS8LT5CO4gSeifILDRi4e8QZ0ixnvCyob9hMYRaOeo+OyW3ovhngjuA==";
       };
     }
     {

@@ -1,5 +1,6 @@
 import { load } from "cheerio";
 import fetch from "node-fetch";
+import { XOR } from "ts-xor";
 import { URL } from "url";
 import { logger } from "../logger";
 
@@ -24,12 +25,24 @@ export function isComicSource(val: string): val is ComicSource {
 export const fetchers = {
     comicfury: <ComicFetcher>function makeComicfuryFetcher(comicUrl: URL) {
         return async function fetchComicfury() {
-            const url = new URL(comicUrl.toString());
-            url.pathname = "archive";
-            logger.trace(`GET ${url}`);
-            const res = await fetch(url);
-            const html = await res.text();
-            const $ = load(html);
+            // gib path XOR url
+            const pathToCher = async (o: XOR<{ path: string }, { url?: URL }>) => {
+                const url = o.url || new URL(comicUrl.toString());
+                if (o.path) url.pathname = o.path;
+                logger.trace(`GET ${url}`);
+                const res = await fetch(url);
+                const html = await res.text();
+                return load(html);
+            }
+            let $: cheerio.Root;
+            // pt.0: go to the last page
+            $ = await pathToCher({ path: "/archive/comics" });
+            const latestComicsUrl = $("#pages").children().last().attr("href");
+            const metaUrl = $($(`footer div ul`).children()[1]).find("a").attr("href");
+            if (!latestComicsUrl) throw new Error("couldn't find pages list on /archive/comics");
+            $ = await pathToCher({ path: latestComicsUrl });
+            // pt.2: gobble up all of these recent pages
+
             let pages: ComicPage[] = [];
 
             $(".archivecomic > a").each((_, e) => {
@@ -37,21 +50,26 @@ export const fetchers = {
                 const rawUrl = $(e).attr("href");
                 if (!rawUrl || rawUrl.trim() == "") return;
                 url.pathname = rawUrl;
-                const title = $(e).text();
+                const title = $(e).text().trim();
+                // we shouldn't be `> a`ing really, but i don't feel like changing that, so:
+                const id = parseInt($(".archivecomicnumber", $(e).parent()).text().replace(/\D/g, ""), 10);
                 pages.push({
                     title,
                     url: url.toString(),
-                    id: parseInt(rawUrl.split("/")[2], 10),
+                    id,
                 });
             });
 
             pages = pages.sort((a, b) => a.id - b.id);
 
-            const bannerURL = $("div#banner img").attr("src");
-            const title = $("h1#sitetitle").text().trim();
+            // pt.3: gobble up the metadata
+            if (!metaUrl) throw new Error("couldn't find metadata link on /archive/comics");
+            $ = await pathToCher({ url: new URL(metaUrl) });
+            const bannerURL = new URL($(".comicbanner-big span a img").attr("src")!/* sure hope we dont explode.. */, metaUrl).href;
+            const title = $(".profile .inner .phead span.desktop-webcomic-link a").text().trim()
 
             if (!bannerURL || !title)
-                throw new Error("Failed to parse archive page meta");
+                throw new Error("Failed to parse meta page");
 
             return {
                 pages,
