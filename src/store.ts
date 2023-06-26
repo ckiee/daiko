@@ -20,7 +20,7 @@ if (!existsSync(STORE_FILE_PATH)) saveToDisk({
         reminder: { reminders: {} }
     },
     web: {
-        lastx: { shower: [], wake: [], sleep: [] }
+        lastx: { shower: [], wake: [], sleep: [], catdemand: [] }
     },
     iscool: {
         sendSandwich: true

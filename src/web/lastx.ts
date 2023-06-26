@@ -2,6 +2,7 @@ import { Router } from "express";
 import { mainPromise } from "..";
 import LinesModule from "../discord/modules/lines";
 import { store } from "../store";
+import { includes } from "../util/includes";
 import { authenticationCheck } from "./authn";
 import { bad } from "./errorHelpers";
 import { sch, schNl, validateBody } from "./validator";
@@ -29,7 +30,7 @@ export function lastx() {
         validateBody({ target: sch("string"), dateTime: sch("string") }),
         async (req, res) => {
             const { target, dateTime } = req.body as { target: string, dateTime: string; };
-            if (target == "shower" || target == "wake" || target == "sleep") {
+            if (includes(["sleep", "wake", "shower", "catdemand"],target)) {
                 const date = new Date(dateTime).getTime();
                 if (isNaN(date)) return bad("invalid dateTime", res);
                 store.web.lastx[target].push(date);
@@ -58,4 +59,5 @@ export interface LastXStore {
     wake: number[];
     shower: number[];
     sleep: number[];
+    catdemand: number[];
 }
