@@ -7,7 +7,6 @@ import { lastx, LastXStore } from "./lastx";
 
 const config = globalConfig.web;
 
-
 export function init() {
     const app = express();
     app.use(helmet());

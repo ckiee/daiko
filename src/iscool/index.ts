@@ -1,6 +1,6 @@
 import { IscoolOptimizer } from "./optimizer";
 import { IscoolScraper, msTimeToHuman } from "./scraper";
-import twilio from "twilio";
+import * as twilio from "twilio";
 import { config } from "../config";
 import { store } from "../store";
 

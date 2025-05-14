@@ -2,9 +2,8 @@ import { readFileSync } from "fs";
 import { join } from "path";
 import { ArpConfig } from "./api/arp";
 import { DavConfig } from "./api/dav";
-import { PluralKitConfig } from "./api/pk";
-import { DiscordConfig } from "./discord";
 import { IscoolConfig } from "./iscool";
+import { MattermostConfig } from "./mattermost";
 import { WebConfig } from "./web";
 
 interface TwilioConfig {
@@ -17,12 +16,12 @@ interface TwilioConfig {
 interface DaikoConfig {
     production: boolean;
     twilio: TwilioConfig;
-    discord: DiscordConfig;
+    // discord: DiscordConfig;
     iscool: IscoolConfig;
-    pluralkit: PluralKitConfig;
     arp: ArpConfig;
     web: WebConfig;
     dav: DavConfig;
+    mattermost: MattermostConfig;
 }
 
 const CONFIG_FILE_PATH = join(process.cwd(), "config.json");

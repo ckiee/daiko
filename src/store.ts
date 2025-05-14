@@ -1,11 +1,9 @@
 import { readFileSync, writeFileSync, existsSync, renameSync } from "fs";
 import { join } from "path";
-import { DiscordStore } from "./discord";
 import { IscoolStore } from "./iscool";
 import { WebStore } from "./web";
 
 interface DaikoStore {
-    discord: DiscordStore
     web: WebStore
     iscool: IscoolStore
 }
@@ -15,10 +13,6 @@ const STORE_FOLDER_PATH = process.cwd();
 const STORE_FILE_PATH = join(STORE_FOLDER_PATH, "store.json");
 
 if (!existsSync(STORE_FILE_PATH)) saveToDisk({
-    discord: {
-        comic: { comics: {} },
-        reminder: { reminders: {} }
-    },
     web: {
         lastx: { shower: [], wake: [], sleep: [], catdemand: [] }
     },

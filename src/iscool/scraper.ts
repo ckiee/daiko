@@ -1,5 +1,5 @@
 import fetch from "node-fetch";
-import cheerio from "cheerio";
+import * as cheerio from "cheerio";
 import { config } from "../config";
 // cell = single thing in time slot
 // slot = single time slot

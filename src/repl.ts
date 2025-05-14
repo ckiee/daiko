@@ -1,6 +1,6 @@
 import { config } from "./config";
 import { store } from "./store"; // for eval ctx
-import readline from "readline";
+import * as readline from "readline";
 import { inspect } from "util";
 import { logger } from "./logger";
 

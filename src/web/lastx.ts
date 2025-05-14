@@ -1,6 +1,5 @@
 import { Router } from "express";
 import { mainPromise } from "..";
-import LinesModule from "../discord/modules/lines";
 import { store } from "../store";
 import { includes } from "../util/includes";
 import { authenticationCheck } from "./authn";
@@ -37,11 +36,11 @@ export function lastx() {
 
                 if (target == "wake") {
                     // HACK-ity hack
-                    const discord = (await mainPromise).discord;
-                    const lines = [...discord.modules].filter(m => m.constructor == LinesModule)[0] as LinesModule;
-                    const chan = await discord.channels.fetch(lines.config.channelId);
-                    if (!chan || !chan.isText()) throw new Error("grr, missing discord channel or wrong type");
-                    await chan.send(lines.getLineMessage("all"));
+                    // const discord = (await mainPromise).discord;
+                    // const lines = [...discord.modules].filter(m => m.constructor == LinesModule)[0] as LinesModule;
+                    // const chan = await discord.channels.fetch(lines.config.channelId);
+                    // if (!chan || !chan.isText()) throw new Error("grr, missing discord channel or wrong type");
+                    // await chan.send(lines.getLineMessage("all"));
                 }
 
                 res.json({ message: "ok" });
