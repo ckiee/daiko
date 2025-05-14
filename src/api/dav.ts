@@ -8,12 +8,9 @@ export interface DavConfig {
     authMethod?: "Basic" | "Oauth" | "Digest" | "Custom";
 }
 
-export const dav = (async () => {
-    const client = new DAVClient({
-        serverUrl: config.dav.serverUrl,
-        credentials: config.dav.credentials,
-    });
+export const dav = new DAVClient({
+    serverUrl: config.dav.serverUrl,
+    credentials: config.dav.credentials,
+});
 
-    await client.login();
-    return client;
-})();
+await dav.login();

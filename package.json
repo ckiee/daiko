@@ -13,6 +13,8 @@
     "express": "^4.21.2",
     "helmet": "^5.1.1",
     "moderndash": "^4.0.0",
+    "morgan": "^1.10.0",
+    "nanoid": "^5.1.5",
     "node-fetch": "^2.7.0",
     "parse-duration": "^1.1.2",
     "pretty-ms": "^7.0.1",
@@ -25,10 +27,11 @@
     "twilio": "^3.84.1",
     "typescript": "^5.8.3",
     "typescript-memoize": "^1.1.1",
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
+    "vcard4-ts": "^0.4.1"
   },
   "scripts": {
-    "dev": "bun ./src",
+    "dev": "bun --watch ./src",
     "tokengen": "bun ./src/web/tokengen.ts"
   },
   "devDependencies": {
@@ -36,6 +39,7 @@
     "@types/bun": "^1.2.13",
     "@types/cheerio": "^0.22.35",
     "@types/express": "^4.17.21",
+    "@types/morgan": "^1.9.9",
     "@types/node-fetch": "^2.6.12",
     "@types/uuid": "^8.3.4"
   }

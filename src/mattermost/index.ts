@@ -8,6 +8,8 @@ import type { Post } from "@mattermost/types/posts";
 import { inspect } from "bun";
 import { config } from "../config";
 import { PartialExcept } from "@mattermost/types/utilities";
+import { logger } from "../logger";
+import { FriendsStore } from "./friends";
 
 export interface MattermostConfig {
     url: string;
@@ -15,12 +17,19 @@ export interface MattermostConfig {
     adminId: string;
 }
 
+export interface MattermostStore {
+    friends: FriendsStore;
+}
+
+export const MAX_MESSAGE_SIZE = 16386;
+
 function makeReply(post: Post) {
-    return (opts: PartialExcept<Post, "message">) =>
+    return (opts: PartialExcept<Post, "message"> & { thread?: boolean }) =>
         client.createPost({
             channel_id: post.channel_id,
-            root_id: post.root_id,
+            root_id: post.root_id || (opts.thread ? post.id : undefined),
             ...opts,
+            message: typeof opts.message == "string" ? opts.message : opts.message ? inspect(opts.message).slice(0, MAX_MESSAGE_SIZE) : ""
         });
 }
 
@@ -41,6 +50,8 @@ export const commands: Record<
     },
 };
 
+await import("./friends");
+
 const client = new Client4();
 client.setUrl(config.mattermost.url);
 client.setToken(config.mattermost.token);
@@ -58,7 +69,20 @@ const eventHandlers: Record<string, (m: WebSocketMessage<any>) => any> = {
             const match = /^!(\w+)\b/.exec(post.message);
             const cmd = match?.[1] ?? "";
             const rest = post.message.slice(match?.[0].length);
-            await commands[cmd]?.({ post, msg, reply: makeReply(post), rest });
+            const reply = makeReply(post);
+            try {
+                await commands[cmd]?.({
+                    post,
+                    msg,
+                    rest,
+                    reply,
+                });
+            } catch (err) {
+                logger.error("caught while handling command", cmd, err);
+                await reply({
+                    message: `⚠️ \`${(err + "").replace(/`/g, "")}\``,
+                });
+            }
         }
     },
 };
