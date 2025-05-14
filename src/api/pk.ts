@@ -28,7 +28,7 @@ export class PluralKitAPI {
             logger.error(`${path} => ${res.status}`);
         }
         const json = await res.json();
-        logger.trace(`${path} => ${JSON.stringify(json)}`);
+        // logger.trace(`${path} => ${JSON.stringify(json)}`);
         return json;
     }
 

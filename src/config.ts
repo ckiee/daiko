@@ -1,6 +1,7 @@
 import { readFileSync } from "fs";
 import { join } from "path";
 import { ArpConfig } from "./api/arp";
+import { DavConfig } from "./api/dav";
 import { PluralKitConfig } from "./api/pk";
 import { DiscordConfig } from "./discord";
 import { IscoolConfig } from "./iscool";
@@ -21,6 +22,7 @@ interface DaikoConfig {
     pluralkit: PluralKitConfig;
     arp: ArpConfig;
     web: WebConfig;
+    dav: DavConfig;
 }
 
 const CONFIG_FILE_PATH = join(process.cwd(), "config.json");
